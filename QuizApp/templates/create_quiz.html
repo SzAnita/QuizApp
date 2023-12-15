@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'quiz.js' %}"></script>
+    <style>
+        fieldset {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            padding-top: 15px;
+            background-color: #C3F8FF;
+            color: #122ac9;
+            font-weight: bold;
+        }
+
+        input, select {
+            block-size: 1.4em;
+            background-color: #fdfcd6;
+        }
+        textarea {
+            background-color: #fdfcd6;
+        }
+        #cancel {
+            float: right;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            flex-direction: column;
+            margin: auto;
+            color: #122ac9;
+            background-color: #FFF6BF;
+        }
+        select {
+            font-size: 0.75em;
+            padding: 1px;
+        }
+        div.navbar ul li._navbar button {
+            position: relative;
+        }
+        h1 {
+            font-weight: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="../home">Home</a></li>
+            <li class="current">Create Quiz</li>
+            <li>My Quizzes</li>
+            <li class="_navbar right"><a href="../user"><button class="title button">User page</button></a></li>
+            <li class="_navbar"><a href="/logout/"><button class="title button">Log out</button></a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Create Quiz</h1>
+        <fieldset name="quiz">
+            {% csrf_token %}
+            <label for="title"> Quiz title:<br></label>
+            <input name="title" id="title" type="text" maxlength="100" required="true"><br>
+            <label for="theme"> Quiz theme:<br></label>
+            <input name="theme" id="theme" type="text" maxlength="40" required="true"><br>
+            <label for="description"> A short description for the quiz:<br></label>
+            <textarea name="description" id="description" type="textarea" maxlength="200" required="true" rows="5" cols="40"></textarea><br>
+            <button onclick="create_quiz()" class="button">Next</button>
+            <a href="../"><button id="cancel" class="button">Cancel</button></a>
+        </fieldset>
+    </div>
+</body>
+</html>

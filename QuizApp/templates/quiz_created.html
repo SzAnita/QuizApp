@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz created!</title>
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="../../">Home</a></li>
+        {% if user == 'yes' %}
+            <li><a href="user/create_quiz">Create Quiz</a></li>
+            <li>My Quizzes</li>
+            <li class="right"><a href="../user"><button>User page</button></a></li>
+            <li><a href="../logout"><button>Log out</button></a></li>
+        {% endif %}
+        {% if user == 'no' %}
+            <li class="right"><a href="login"><button>Log in</button></a></li>
+        {% endif %}
+        </ul>
+    </div>
+    <div class="container">
+        <h3>Title: {{ title }}</h3>
+        <p>Theme: {{ theme }}</p>
+        <p>Description: {{ description }}</p>
+        {% for q in questions %}
+            <div class="quiz">
+            <p><b>{{ q.question }}</b></p>
+            <p>{{ q.type }}</p>
+            <p>Answers:</p>
+            {% for a in q.answers %}
+                <p>a.answer,   a.correct</p>
+            {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+.quiz-container {
+    max-inline-size: 250px;
+    background-color: #C3F8FF;
+    border-color: #1db8fc;
+    border-style: solid;
+    border-radius: 10px;
+    margin: 10px 20px;
+    padding: 0 10px;
+}
+
+.container {
+    display: flex;
+    /*flex-direction: row;*/
+    justify-content: center;
+    max-inline-size: 80%;
+    background-color: #FFF6BF;
+    border-radius: 10px;
+    margin: auto;
+    color: #fdc002;
+}
+
+.correct {
+    background-color: #32c38c;
+    max-inline-size: 100px;
+}
+
+.title {
+    color: #122ac9;
+}

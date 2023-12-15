@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li class="current"><a href="/QuizApp/home">Home</a></li>
+        {% if user == 'yes' %}
+            <li><a href="user/create_quiz">Create Quiz</a></li>
+            <li><a href="user/my_quizzes">My Quizzes</a></li>
+            <li class="_navbar right"><a href="../user"><button class="title button">User page</button></a></li>
+            <li class="_navbar"><a href="logout/"><button class="title button">Log out</button></a></li>
+        {% endif %}
+        {% if user == 'no' %}
+            <li class="right"><a href="login/"><button>Log in</button></a></li>
+        {% endif %}
+        </ul>
+    </div>
+    {% include 'quizzes.html' %}
+</body>
+</html>
