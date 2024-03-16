@@ -1,0 +1,340 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit {{ title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'js/edit.js' %}"></script>
+    <script src="{% static 'js/csrf_cookie.js' %}"></script>
+    <style>
+        .container {
+            max-inline-size: 70%;
+            background-color: #FFF6BF;
+            border-radius: 10px;
+            margin: auto;
+            display: block;
+        }
+        h2 {text-align: center;}
+        table#questions {
+            {#border: 1px solid black;#}
+            {% comment %}border-radius: 5px;
+            border: solid #122ac9 5px;{% endcomment %}
+        }
+        #question-border{
+            border: solid #122ac9 5px;
+            border-radius: 5px;
+            padding: 0;
+            margin:5px 0;
+        }
+        #answer-border{
+            border: solid #d4550b 4px;
+            border-radius: 7px;
+            padding: 0;
+            margin:0;
+        }
+        button {
+            position: relative;
+            bottom: 5px;
+            font-size: 1.2em;
+            background-color: #C3F8FF;
+        }
+        .navbar ul li {
+            height: unset;
+        }
+        .my_border {
+            border: solid #fca31d 5px;
+            border-radius: 5px;
+            padding: 0 5px;
+            background-color: #C3F8FF;
+        }
+        .btn-primary {
+            margin: 10px 5px 5px;
+        }
+        #questions tr:nth-child(even){
+            background-color: #bae1fa;
+        }
+        #questions tr:nth-child(odd) {
+            background-color: #8cf8f8;
+        }
+        #questions tr:nth-child(1) {
+            background-color: #1db8fc;
+            font-size: large;
+        }
+        #answers table tr:nth-child(even){
+            background-color: #FFEBAD;
+        }
+        #answers table tr:nth-child(odd) {
+            background-color: #fccd92;
+        }
+        #answers table tr:nth-child(1) {
+            background-color: #fca31d;
+            font-size: large;
+        }
+        td#answers table{
+            width: 100%;
+            border: 0 solid black;
+            padding: 0;
+            border-spacing: 0;
+        }
+        td.add_answer {
+            width: 100%;
+        }
+        table,th td {
+            text-align: center;
+        }
+        #edit-container {
+            width: fit-content;
+            margin: auto;
+            padding: 5px 20px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        table#head{
+            text-align: left;
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+        table#head td {
+            padding:0 5px;
+        }
+        .icon {
+            padding-bottom: 10px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+<div class="container-fluid container">
+  <h2>Edit <i>{{ title }}</i></h2>
+    <div id="edit-container">
+        <div class="my_border">
+            <table id="head">
+                <tr>
+                    <td>Title:</td>
+                    <td>{{ title }}</td>
+                </tr>
+                <tr>
+                    <td>Subject:</td>
+                    <td>{{ theme }}</td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td>{{ description }}</td>
+                </tr>
+            </table>
+            <a data-bs-toggle="modal" data-bs-target="#editTitle"><img class="icon" src="{%  static 'images/edit.png' %}"></a>
+            <div class="modal" id="editTitle">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Title</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form class="edit_title" id="edit_title">
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                <label for="title">Title: </label><br>
+                                <input type="text" id="title" name="title" value="{{ title }}"><br>
+                                <label for="theme">Subject: </label><br>
+                                <input type="text" id="theme" name="theme" placeholder="Theme" value="{{ theme }}"><br>
+                                <label for="description">Description: </label><br>
+                                <textarea rows="5" cols="50" id="description" name="description" placeholder="Description">{{ description }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="edit_head({{ quiz_id }})">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <h4>Questions:</h4>
+            <div id="question-border">
+            <table id="questions">
+                <tr>
+                    <th>Question</th>
+                    <th>Question type</th>
+                    <th>Points</th>
+                    <th>Answers</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for q in questions %}
+                    <tr>
+                        <td>{{ q.question }}</td>
+                        <td>{{ q.type }}</td>
+                        <td>{{ q.points }}</td>
+                        <td id="answers" style="padding: 0">
+                            <div id="answer-border">
+                            <table>
+                            <tr>
+                                <th>Answer</th>
+                                <th>Correct</th>
+                                <th>Points</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            {% for a in q.answers %}
+                                <tr>
+                                    <td>{{ a.answer }}</td>
+                                    <td class="correct">{{ a.correct }}</td>
+                                    <td>{{ a.point }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAnswer{{ a.id }}">Edit</button>
+                                            <div class="modal" id="editAnswer{{ a.id }}">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Answer</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <form class="edit_answer">
+                                                            <div class="modal-body">
+                                                                {% csrf_token %}
+                                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                                <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
+                                                                <input type="text" hidden="hidden" value="{{ a.id }}" name="answer_id">
+                                                                <label for="answer">Answer: </label><br>
+                                                                <textarea id="answer{{ q.id }}" name="answer">{{ a.answer }}</textarea><br>
+                                                                <label for="correct">Correct: </label><br>
+                                                                <select name="correct" id="correct{{ a.id }}">
+                                                                    <option value="False">False</option>
+                                                                    <option value="True">True</option>
+                                                                </select><br>
+                                                                <label for="points">Points: </label><br>
+                                                                <input type="number" name="points" id="points{{ a.id }}" value="{{ a.point }}">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </td>
+                                    <td><button type="button" class="btn btn-primary delete-answer" id="{{ a.id }}">Delete</button></td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td class="add_answer" colspan="5">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAnswer{{ q.id }}">Add Answer</button>
+                                    <div class="modal" id="addAnswer{{ q.id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add Answer</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <form class="add_answer" method="post">
+                                                    <div class="modal-body">
+                                                        {% csrf_token %}
+                                                        <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                        <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
+                                                        <label for="answer">Answer: </label><br>
+                                                        <textarea id="answer_q{{ q.id }}" name="answer"></textarea><br>
+                                                        <label for="correct">Correct: </label><br>
+                                                        <select name="correct" id="correct{{ q.id }}">
+                                                            <option value="False">False</option>
+                                                            <option value="True">True</option>
+                                                        </select><br>
+                                                        <label for="points">Points:</label><br>
+                                                        <input type="number" name="points" id="points{{ q.id }}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="send_answer({{ q.id }})">Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                            </div>
+                                </td>
+                            </tr>
+                        </table>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQuestion{{ q.id }}">Edit</button>
+                            <div class="modal" id="editQuestion{{ q.id }}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Question</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form class="edit_question">
+                                            <div class="modal-body">
+                                                {% csrf_token %}
+                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
+                                                <label for="question">Question: </label><br>
+                                                <textarea id="question{{ q.id }}" name="question">{{ q.question }}</textarea><br>
+                                                <label for="type">Question type: </label><br>
+                                                <select name="type" id="type{{ q.id }}">{{ q.type }}
+                                                    <option value="TY">Typing</option>
+                                                    <option value="SC">Single choice</option>
+                                                    <option value="MC">Multi-choice</option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="edit_head({{ quiz_id }})">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><button type="button" class="btn btn-primary delete-question" id="{{ q.id }}">Delete</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestion">Add Question</button>
+            <div class="modal" id="addQuestion">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add Question</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form class="add_question">
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                <label for="question">Question: </label><br>
+                                <textarea id="question" name="question" rows="4" cols="60"></textarea><br>
+                                <label for="type">Question type: </label><br>
+                                <select name="type" id="type">
+                                    <option value="TY">Typing</option>
+                                    <option value="SC">Single choice</option>
+                                    <option value="MC">Multi-choice</option>
+                                </select><br>
+                                <label for="answer1">Answer 1: </label><br>
+                                <textarea name="answer1"></textarea><br>
+                                <label for="correct1">Correct: </label><br>
+                                <select name="correct1">
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select><br>
+                                <label for="points1">Points: </label><br>
+                                <input type="number" name="points1" id="points1">
+                                <button type="button" class="btn btn-primary" id="add_answer">Add Answer</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="add_question({{ quiz_id }})">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+</body>
+</html>

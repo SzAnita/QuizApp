@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz created!</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h3>Title: {{ title }}</h3>
+        <p>Theme: {{ theme }}</p>
+        <p>Description: {{ description }}</p>
+        {% for q in questions %}
+            <div class="quiz">
+            <p><b>{{ q.question }}</b></p>
+            <p>{{ q.type }}</p>
+            <p>Answers:</p>
+            {% for a in q.answers %}
+                <p>a.answer,   a.correct</p>
+            {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

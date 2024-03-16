@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Quiz</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'js/quiz.js' %}"></script>
+    <script src="{% static 'js/csrf_cookie.js' %}"></script>
+    <style>
+        fieldset {
+            background-color: #C3F8FF;
+            color: #122ac9;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            margin-top: 10px;
+            margin-bottom: 50px;
+            padding: 25px 50px 25px;
+        }
+
+        input, select {
+            block-size: 1.7rem;
+        }
+        input{padding-bottom: 5px;}
+        #cancel {
+            float: right;
+        }
+        .container {
+            flex-direction: column;
+            color: #122ac9;
+            justify-content: flex-start;
+            align-items: center;
+            //height: max(calc(100% - 60px), fit-content);
+            margin-bottom: 0;
+        }
+        select {
+            padding: 1px;
+            line-height: 1.2;
+        }
+        textarea {line-height: normal}
+        div.navbar ul li._navbar button {
+            position: relative;
+        }
+        h1 {
+            font-weight: bolder;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 2rem;
+        }
+        fieldset label {
+            font-size: 1.5rem;
+        }
+        input, textarea, select {
+            margin-bottom: 20px;
+            background-color: #fdfcd6;
+            font-size: 1rem;
+            border-radius: 15px;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        div.buttons button {
+            font-size: 1.25rem;
+        }
+        @media screen and (max-width: 510px) {
+            fieldset {
+                padding: 15px 30px;
+            }
+            textarea {
+                width: calc(30em + 7px);
+                height: calc(5em + 37px);
+            }
+            input, textarea, select {
+                font-size: 0.8rem;
+                margin-top: 5px;
+                margin-bottom: 10px;
+            }
+        }
+        @media screen and (max-width: 400px) {
+            fieldset{padding: 15px}
+            fieldset label{font-size: 1.15rem}
+        }
+        @media screen and (max-width: 700px){
+            fieldset label{
+                font-size: 1.75rem;
+            }
+        }
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .sticky + .container {padding-top: 60px}
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+            <h1>Create Quiz</h1>
+        <fieldset name="quiz">
+            {% csrf_token %}
+            <label for="title"> Title: </label>
+            <input name="title" id="title" type="text" maxlength="100" required="true">
+            <label for="theme"> Subject:</label>
+            <input name="theme" id="theme" type="text" maxlength="40" required="true">
+            <label for="description"> A short description:</label>
+            <textarea name="description" id="description" type="textarea" maxlength="200" required="true" rows="5" cols="30"></textarea>
+            <label for="status" style="font-weight: 400">Status of quiz</label>
+            <select name="status" id="status">
+                <option value="True">Public</option>
+                <option value="False">Private</option>
+            </select>
+            <div class="buttons" style="display: flex; flex-direction: row; justify-content: space-between">
+                <button onclick="create_quiz()" class="button">Next</button>
+                <a href="../home"><button id="cancel" class="button">Cancel</button></a>
+            </div>
+        </fieldset>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+    function display_navbar() {
+        document.querySelector("div.vertical-nav.dropdown").classList.toggle("visible");
+    }
+    window.onscroll =function () {
+        let navbar = document.querySelector("nav.navbar");
+        let sticky = navbar.offsetTop;
+        if (window.scrollY >= sticky) {
+            navbar.classList.add("sticky");
+        } else {
+            navbar.classList.remove("sticky");
+        }
+    }
+</script>

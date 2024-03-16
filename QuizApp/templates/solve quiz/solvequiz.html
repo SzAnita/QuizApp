@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Solving {{ quiz_title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <style>
+        .container {
+            max-inline-size: 50%;
+            background-color: #fcdf92;
+            border-radius: 10px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        legend {color: #101be5;}
+        h1 {text-align: center;}
+        fieldset {
+            margin: 10px  0;
+            background-color: #FFF6BF;
+        }
+        input[type='submit'] {
+            font-size: 1.2em;
+            margin: auto
+        }
+        form {
+          background-color: #ffeeb6;
+            margin: 0 20%;
+        }
+        label {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+    <h1>{{ quiz_title }}</h1>
+        <form method="POST" action="{{ quiz_title }}{{ quiz_id }}">
+        {% csrf_token %}
+        {% for q in questions %}
+            {% if q.type == 'TY' %}
+                <label for="{{ q.id }}">{{ q.question }} <br></label>
+                <input type="text" maxlength="20" name="{{ q.id }}" id="{{ q.id }}" required="true"><br>
+            {% else %}
+                <fieldset>
+                <legend><b>{{ q.question }}</b><br></legend>
+                {% for a in q.answers %}
+                    {% if q.type == 'SC' %}
+                    <input type="radio" name="{{ q.id }}" id="{{ a.id }}" value="{{ a.id }}">
+                    {% elif q.type == 'MC' %}
+                    <input type="checkbox" name="{{ q.id }}" id="{{ a.id }}" value="{{ a.id }}">
+                    {% endif %}
+                    <label for="{{ a.id }}">{{ a.answer }}<br></label>
+                {% endfor %}
+                </fieldset>
+            {% endif %}
+        {% endfor %}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

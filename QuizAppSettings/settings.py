@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-ou$gjz#ydpj!8lw-qyl-t7&$y^0^s&$$b-bzvq1f-k=7=y2mjm
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_REDIRECT_URL = 'QuizApp/home'
+LOGIN_REDIRECT_URL = 'home'
 AUTH_USER_MODEL = 'QuizApp.User'
 
 # Application definition

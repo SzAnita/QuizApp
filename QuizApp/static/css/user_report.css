@@ -1,0 +1,39 @@
+.quiz_result {
+    margin: 20px auto;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+}
+.quiz_result::before {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 1.5em;
+    padding: 20px;
+}
+.quiz_result, .quiz_result:before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#questions {
+    background-color: #e7fcff;
+    padding: 5px;
+    aspect-ratio: auto 600 / 300;
+}
+#legend {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+}
+#legend div {
+    padding: 0 10px;
+}
+#segment1 {background: darkgreen}
+#segment2 {background: red}
+#segment1, #segment2{
+    height: 20px;
+
+}

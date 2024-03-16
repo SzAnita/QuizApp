@@ -1,7 +1,9 @@
+from django import utils
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -46,6 +48,7 @@ class Question(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
     quiz_id = models.ForeignKey('Quiz', on_delete=models.CASCADE)
     question = models.CharField(max_length=255)
+    points = models.IntegerField(default=0, null=False)
 
     class QuizTypeChoice(models.TextChoices):
         TYPING = 'TY',
@@ -64,6 +67,7 @@ class Answer(models.Model):
     question_id = models.ForeignKey("Question", on_delete=models.CASCADE)
     answer = models.CharField(max_length=255)
     correct = models.BooleanField(default=False)
+    point = models.IntegerField(default=1, null=False)
 
     def __str__(self):
         answer = self.answer
@@ -77,6 +81,7 @@ class QuestionResult(models.Model):
     user_id = models.ForeignKey('User', models.CASCADE, null=True)
     quiz_id = models.ForeignKey('Quiz', models.CASCADE)
     question_id = models.ForeignKey('Question', models.CASCADE)
+    quiz_result_id = models.ForeignKey('QuizResult', models.CASCADE)
     result = models.DecimalField(decimal_places=2, max_digits=5, null=True)
 
     def __str__(self):
@@ -88,6 +93,14 @@ class QuizResult(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     quiz_id = models.ForeignKey('Quiz', on_delete=models.CASCADE)
     result = models.DecimalField(decimal_places=2, max_digits=5, null=True)
+    date_time = models.DateTimeField(default=utils.timezone.now())
 
     def __str__(self):
         return str(self.result) + '%'
+
+
+class AnswerResult(models.Model):
+    id = models.IntegerField(primary_key=True, unique=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    quiz_result_id = models.ForeignKey('QuizResult', on_delete=models.CASCADE)
+    answer_id = models.ForeignKey('Answer', on_delete=models.CASCADE)

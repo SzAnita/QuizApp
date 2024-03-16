@@ -1,0 +1,241 @@
+:root {
+    --navbar-font-size: 1.5rem;
+
+}
+*{
+    box-sizing: border-box;
+    line-height: 2.25rem;
+}
+.invalid {
+    font-size: 12px;
+    color: darkred;
+}
+
+
+.navbar {
+    display: flex;
+    position: relative;
+    height: 60px;
+    background-color: #1db8fc;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 0;
+    overflow: hidden;
+}
+
+.navbar ul{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    margin-top: 0;
+    flex-direction: row;
+}
+
+.navbar ul li {
+    float: left;
+    padding: calc((60px - 16px - var(--navbar-font-size)/(2/3))/2) 15px;
+    margin: 0;
+    color: #FFEBAD;
+    text-align: center;
+}
+a.nav-link, a.nav-link button{font-weight: 600}
+.navbar ul .right {
+    margin-left: auto;
+}
+
+.navbar ul li button {
+    border: none;
+    text-align: center;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+li a {
+    text-decoration: none;
+    color: #FFEBAD;
+}
+
+.current {
+    background-color: cornflowerblue;
+}
+
+li._navbar button {
+    height: auto;
+    font-size: 1rem;
+    margin: 0;
+    float: right;
+}
+div.navbar ul li._navbar {
+    padding: 0;
+    float: right;
+}
+div.navbar ul li._navbar button, li#log-out a.nav-link button{
+    height: 45px;
+    top: -12px;
+}
+li#log-out, li#log-out a.nav-link, ul.navbar-nav li.right a.nav-link, ul.navbar-nav li.right {
+    padding-left: 0;
+    float: right;
+}
+ul.navbar-nav li.right a.nav-link{padding-right: 0}
+.button {
+    position: relative;
+    bottom: 2px;
+    top: 2px;
+    font-size: 0.8rem;
+    background-color: #FFEBAD;
+}
+
+.nav-link {
+    color: #FFEBAD;
+}
+
+.nav-link .right {
+    margin-left: auto;
+}
+li .nav-link button {
+    float: right;
+}
+
+ul.navbar-nav {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 100%;
+    flex-direction: row;
+}
+div.container-fluid ul.navbar-nav li.nav-item._navbar a.nav-link {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+}
+
+nav.navbar div ul.navbar-nav li.nav-item._navbar {
+    padding-right: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+}
+
+div.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+    display: flex;
+    line-height: 1.5rem;
+    justify-content: space-between;
+    width: 100%;
+}
+nav.navbar div ul li, nav.navbar div ul li button {height: 60px;}
+
+label{font-weight: 500}
+
+nav.navbar ul.navbar-nav li.nav-item.right a.nav-link button {
+    background-color:unset; !important;
+    padding: 7px 0;
+    top: -20px;
+}
+a.nav-link, a.nav-link button {font-size: 1.5rem}
+.vertical-nav {
+    display: none;
+}
+.nav-link {
+    padding: 8px;
+    display: block;
+}
+#hamburger, .top-nav{display: none}
+a{text-decoration: none}
+
+nav.navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + .container {padding-top: 60px;}
+
+
+
+@media screen and (max-width: 900px){
+    a.nav-link {font-size: 1.25rem}
+    li#log-out a.nav-link button {
+        font-size: 1.15rem;
+        top: -9px;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    /*nav.navbar div ul li a.two-lines {
+        height: 60px;
+        position: relative;
+        top: -5px;
+        padding:0 3px;
+    }*/
+    nav.navbar div.container-fluid ul.navbar-nav li.link {
+        padding-left:7px;
+        padding-right: 7px;
+    }
+
+    /*ul a.nav-link,  nav.navbar div ul.navbar-nav li.nav-item  a.nav-link button{
+        font-size: 1.75rem;
+    }*/
+    div.vertical-nav.dropdown.visible, div.visible ul {
+        display: flex;
+        flex-direction: column;
+        background-color: #C3F8FF;
+    }
+    div.visible ul .nav-link{color: #f6a74c}
+}
+
+@media screen and (max-width: 575px) {
+     .nav-link {
+         --navbar-font-size: 1.75rem;
+        position: relative;
+        top: -2px;
+    }
+    #logo, #hamburger{
+        display: flex;
+    }
+    #hamburger {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #FFEBAD;
+        color: #1db8fc;
+        padding: 12px 21px;
+    }
+    .vertical-nav {
+        display: flex;
+    }
+    nav.navbar div.container-fluid, div.vertical-nav.dropdown{display:none}
+    nav.navbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #logo {
+        margin: auto;
+    }
+    .top-nav{
+        display: flex;
+        flex-direction: row;
+        width: calc(100% - 56px);
+        position: absolute;
+        right: 0;
+    }
+    nav.navbar div.top-nav div#logo  a.nav-link,  nav.navbar div.top-nav div ul li a button{
+        font-size: 1.75rem;
+    }
+    ul.navbar-nav li#log-out.nav-item a.nav-link button {
+        height: 45px;
+        top: -8px;
+        padding-top: 0;
+    }
+}

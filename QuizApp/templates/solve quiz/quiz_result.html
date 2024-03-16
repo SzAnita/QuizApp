@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz_title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_report.css' %}">
+    <style>
+        .correct {
+            background-color: lightgreen;
+            max-inline-size: fit-content;
+            padding: 0 5px;
+        }
+        .incorrect {
+            background-color: #fd5c5c;
+            max-inline-size: fit-content;
+            padding: 0 5px;
+        }
+        .container {
+            max-inline-size: 70%;
+            margin: auto;
+            background-color: #fcdf92;
+            border-radius: 10px;
+            padding-top: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        .quiz {
+            border-style: solid;
+            border-color: #1db8fc;
+            max-inline-size: 400px;
+            border-radius: 10px;
+            background-color: #fff1c5;
+            margin: 10px 20px;
+        }
+        p {
+            margin-left: 5px;
+        }
+        body {
+            font-size: 1.2em;
+        }
+        .container:after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        .quiz_result::before {
+            content: "Score: {{ result }}/{{ max_points }} ({{ percent }}%)";
+        }
+        .quiz_result {
+            background: conic-gradient(
+                red 0deg {{ incorrect_percent }}deg,
+                green {{ incorrect_percent }}deg 360deg
+            );
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="col-lg-1">
+            {% for question in user_answers %}
+                <div class="quiz">
+                <p><b>{{ question.0 }}</b></p>
+                {% if question.type == 'TY'%}
+                    {% if question.1.1 == True %}
+                        <p class="correct">{{ question.1.1 }}</p>
+                    {% else %}
+                        <p class="incorrect">{{ question.1.1 }} - this answer is incorrect</p>
+                        <p>The correct answer is {{ question.1.2 }}</p>
+                    {% endif %}
+                {% else %}
+                    {% for q in question.1 %}
+                        {% if q.1 and q.2 %}
+                            <p class="correct">{{ q.0 }}</p>
+                        {% elif not q.1 and q.2 %}
+                            <p class="incorrect">{{ q.0 }}</p>
+                        {% elif q.1 and not q.2 %}
+                            <p>{{ q.0 }} - <b>this option is correct</b></p>
+                        {% else %}
+                            <p>{{ q.0 }}</p>
+                        {% endif %}
+                    {% endfor %}
+
+
+                {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div style="justify-content: center">
+            <div class="quiz_result"></div>
+            <div>
+                <canvas id="questions"  style="width:100%;max-width:600px"></canvas>
+            </div>
+            <div>
+                {% for q in questions %}
+                    <p>{{ q }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let xValues = []
+    for (let q = 1; q<{{ question_nr }}; q++) {
+        xValues[q-1] = "Q"+q.toString();
+    }
+    new Chart("questions", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: "Your points",
+                backgroundColor: "orange",
+                data: {{ user_points }}
+            },
+            {
+                label: "Maximum points",
+                backgroundColor: "blue",
+                data: {{ question_max_points }}
+            }]
+        },
+        options: {
+            legend: {display: true},
+            scales: {
+              yAxes: [{
+                ticks: {
+                  min: 0,
+                }
+              }]
+            },
+            min: 0
+        }
+    });
+</script>
+</html>

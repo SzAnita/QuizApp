@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Not a user</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+     <div class="navbar">
+        <ul>
+            <li>Home</li>
+            <li class="right"><a href="../login"><button>Log in</button></a></li>
+        </ul>
+    </div>
+    <h2>Only users can access this page, and you're not logged in</h2>
+</body>
+</html>

@@ -1,0 +1,178 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Report</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="{% static 'css/user_report.css' %}">
+    <style>
+        body {font-size: 1.2em}
+        #last_quiz_result::before {
+            content: "Score: {{ last_points }}/{{ max_points }} ({{ last_percent }}%)";
+        }
+        #best_quiz_result::before {
+            content: "Score: {{ best_points }}/{{ max_points }} ({{ best_percent }}%)";
+        }
+        #last_quiz_result {
+            background: conic-gradient(
+                green 0deg {{ last_green }}deg,
+                red {{ last_green }}deg 360deg
+            );
+        }
+        #best_quiz_result {
+            background: conic-gradient(
+                darkgreen 0deg {{ best_green }}deg,
+                red {{ best_green }}deg 360deg
+            );
+        }
+        .container {
+            max-inline-size: 70%;
+            margin: auto;
+            background-color: #fcdf92;
+            border-radius: 10px;
+            padding-top: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        .container #chart {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+        .container div.donut {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        .container div {
+            margin: 20px;
+        }
+        div.donut div p {
+            display: flex;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        .container #chart canvas#questions {
+            justify-content: center;
+            display: flex;
+        }
+        th{font-size: 1.4em}
+        th, td {
+            {#border: 1px solid black;#}
+            border-radius: 5px;
+        }
+        {% comment %}tr:nth-child(even) {
+            background-color: #8cf8f8;
+        }{% endcomment %}
+        tr:nth-child(odd) {
+            background-color: #1db8fc;
+            font-size: large;
+        }
+        table.correct tr:nth-child(even){
+            background-color: #d3f9ad;
+        }
+        table.correct tr:nth-child(odd) {
+            background-color: #62d583;
+        }
+        table.correct tr:nth-child(1) {
+            background-color: #1ca313;
+            font-size: large;
+        }
+        table.user tr:nth-child(even){
+            background-color: #fbd3a9;
+        }
+        table.user tr:nth-child(odd) {
+            background-color: #f8b166;
+        }
+        table.user tr:nth-child(1) {
+            background-color: #fb7405;
+            font-size: large;
+        }
+        table,th td {
+            text-align: center;
+        }
+        table.user, table.correct{width: 100%}
+        div#result{
+            border-color: #1db8fc;
+            border-width: 25px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        table.user th, table.correct th {font-size: 1.25em}
+        .container #chart canvas#questions {}
+    </style>
+</head>
+<body>
+     {% include 'navbar.html' %}
+    <div class="container">
+    <h2 style="text-align: center">{{ quiz_title }}</h2>
+    <div class="donut">
+        <div style="justify-content: center">
+            <p s>Last Result</p>
+            <div id="last_quiz_result" class="quiz_result" content="{{ last_points }}/{{ max_points }} ({{ last_percent }})"></div>
+        </div>
+        {% if more == 'true' %}
+            <div style="justify-content: center" >
+                <p>Best result</p>
+                <div id="best_quiz_result" class="quiz_result" content="{{ best_points }}/{{ max_points }} ({{ best_percent }})"></div>
+            </div>
+        {% endif %}
+    </div>
+    <div id="legend">
+        <div id="segment1"></div><p>Correct answers</p>
+        <div id="segment2"></div><p>Wrong answers</p>
+    </div>
+    <div id="chart">
+            <div>
+                <canvas id='questions'  style='width:100%;max-width:600px; display: flex'></canvas>
+            </div>
+        </div>
+        <div id="result">
+        <h3 style="text-align: center">Questions</h3>
+        <table style="justify-self: center">
+            {% for q in questions %}
+             <tr>
+                <th colspan="2">{{ q.question }}</th>
+             </tr>
+             <tr>
+                <td colspan="1">
+                    <table class="user">
+                        <tr>
+                            <th>Your answers</th>
+                        </tr>
+                        {% for ua in q.user_answers %}
+                        <tr>
+                            <td>{{ ua }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    <table class="correct">
+                        <tr>
+                            <th>Correct answers</th>
+                        </tr>
+                        {% for ca in q.correct_answers %}
+                        <tr>
+                            <td>{{ ca }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+             </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+</body>
+<script src="{% static 'js/barchart.js' %}"></script>
+<script>
+    report({{ last_user_points }}, {{ question_max_points }}, {{ best_user_points }}, {{ question_nr }});
+</script>
+</html>

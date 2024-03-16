@@ -1,0 +1,40 @@
+div.container div.user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: fit-content;
+    min-width: 330px;
+    max-width: 380px;
+    background-color: rgba(248, 211, 184, 0.15);
+    color: #122ac9;
+    font-size: 1.1em;
+    border-color: #f6a74c;
+    border-width: 5px;
+    border-radius: 10px;
+    border-style: solid;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+div.container {justify-content: flex-start}
+.history{
+    display: flex;
+}
+div.user, div.history {
+    margin: 10px 30px;
+}
+.user_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user_image{
+    margin: 30px auto;
+    width:200px;
+    height:200px;
+    background-color: rgba(255, 255,255, 0.25);
+    border-radius: 120px;
+    background-size:cover;
+}
