@@ -19,7 +19,7 @@ class SolveQuizView(View):
         }
         if request.user.is_authenticated:
             context['user'] = 'yes'
-        template = loader.get_template('solvequiz.html')
+        template = loader.get_template('solve quiz/solvequiz.html')
         return HttpResponse(template.render(context, request))
 
     def post(self, request, quiz_title, quiz_id):
