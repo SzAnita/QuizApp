@@ -17,4 +17,12 @@
         </div>
     </div>
 </body>
+<script>
+        $(document).ready(function (){
+            if ($(".horizontal-nav a.current").length > 0) {
+                $(".horizontal-nav a.current").removeClass("current");
+            }
+            $(".horizontal-nav a").first().addClass("current");
+        });
+    </script>
 </html>

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from QuizApp.models import Quiz, QuizResult
+from QuizApp.models import Quiz, QuizResult, QuizGroup, User
 
 
 def index(request):
@@ -15,8 +15,6 @@ def index(request):
     if request.user.is_authenticated:
         context['auth'] = 'yes'
         context['group'] = 'true'
-    for qr in QuizResult.objects.all():
-        if qr.id == 5:
-            qr.delete()
+        context['groups'] = QuizGroup.objects.filter(owner_id=request.user)
     template = loader.get_template('index.html')
     return HttpResponse(template.render(context, request))
