@@ -10,108 +10,75 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
     <script src="{% static 'js/user.js' %}"></script>
     <script src="{% static 'js/csrf_cookie.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
     <style>
         .user_image{background-image: url({% static 'images/user.png' %});}
-        nav.navbar div ul li {height: unset;}
-        div.details div {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-        button#edit{
-            margin-top: 20px;
-            margin-bottom: 5px;
-            width:100px;
-        }
-        .edit_hidden {
-            display: none;
-        }
-        .edit_visible {
-            display: block;
-        }
-        .row-in-between {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-        .edit_hidden, .edit_visible {
-            margin-bottom: 10px;
-        }
-        div.user div.details button {
-            background-color: color-mix(in srgb, blue 70%, white);
-            color: color-mix(in srgb, lightyellow 70%, orange);
-            max-block-size: 37px;
-            text-align: center;
-        }
-         div.user div.details button.form-button {
-            background-color: color-mix(in srgb, #29a7f6 40%, white);
-            color: #f1531e;
-        }
-         label {
-             font-weight: 500;
-         }
     </style>
 </head>
 <body>
     {% include 'navbar.html' %}
     <div class="container-fluid container">
-        <div class="user">
-            <div class="user_header">
-                <div class="user_image"></div>
-            </div>
-            <div class="details">
-                <div class="row-in-between">
-                    <div>
-                        <b>Username</b>: <br><p class="username">{{ username }}</p>
-                    </div>
-                    <button class="button edit" >Edit</button>
+        <div class="col1">
+            <div class="user">
+                <div class="user_header">
+                    <div class="user_image"></div>
                 </div>
-                <div id="edit_username" class="edit_hidden">
-                    <label for="username">New username</label><br>
-                    <input type="text" maxlength="100" name="username" id="username">
+                <div class="details">
                     <div class="row-in-between">
-                        <button class="button form-button cancel">Cancel</button>
-                        <button class="button form-button" onclick="save('username')">Save</button>
+                        <div>
+                            <b>Username</b>: <br><p class="username">{{ username }}</p>
+                        </div>
+                        <button class="button edit" >Edit</button>
                     </div>
-                </div>
-                <div class="row-in-between">
-                    <div>
-                        <b>Email</b>: <br><p class="email">{{ email }}</p>
+                    <div id="edit_username" class="edit_hidden">
+                        <label for="username">New username</label><br>
+                        <input type="text" maxlength="100" name="username" id="username">
+                        <div class="row-in-between">
+                            <button class="button form-button cancel">Cancel</button>
+                            <button class="button form-button" onclick="save('username')">Save</button>
+                        </div>
                     </div>
-                    <button class="button edit">Edit</button>
-                </div>
-                <div id="edit_email" class="edit_hidden">
-                    <label for="pwd">Current password</label><br>
-                    <input type="password" name="pwd" id="pwd"><br>
-                    <label for="email">New email</label><br>
-                    <input type="email" maxlength="100" name="email" id="email">
                     <div class="row-in-between">
-                        <button class="button form-button cancel">Cancel</button>
-                        <button class="button form-button" onclick="save('email')">Save</button>
+                        <div>
+                            <b>Email</b>: <br><p class="email">{{ email }}</p>
+                        </div>
+                        <button class="button edit">Edit</button>
                     </div>
-                </div>
-                <div class="row-in-between">
-                    <div>
-                        <b>Password</b>: <p class="pwd">{{ password }}</p>
+                    <div id="edit_email" class="edit_hidden">
+                        <label for="pwd">Current password</label><br>
+                        <input type="password" name="pwd" id="pwd"><br>
+                        <label for="email">New email</label><br>
+                        <input type="email" maxlength="100" name="email" id="email">
+                        <div class="row-in-between">
+                            <button class="button form-button cancel">Cancel</button>
+                            <button class="button form-button" onclick="save('email')">Save</button>
+                        </div>
                     </div>
-                    <button class="button edit">Edit</button>
-                </div>
-                <div id="edit_pwd" class="edit_hidden">
-                    <label for="old_pwd">Old password</label><br>
-                    <input type="password" name="old_pwd" id="old_pwd"><br>
-                    <label for="new_pwd">New password</label><br>
-                    <input type="password" name="new_pwd" id="new_pwd"><br>
-                    <label for="confirm_pwd">Confirm new password</label><br>
-                    <input type="password" name="confirm_pwd" id="confirm_pwd">
                     <div class="row-in-between">
-                        <button class="button form-button cancel">Cancel</button>
-                        <button class="button form-button" onclick="save('pwd')">Save</button>
+                        <div>
+                            <b>Password</b>: <p class="pwd">{{ password }}</p>
+                        </div>
+                        <button class="button edit">Edit</button>
+                    </div>
+                    <div id="edit_pwd" class="edit_hidden">
+                        <label for="old_pwd">Old password</label><br>
+                        <input type="password" name="old_pwd" id="old_pwd"><br>
+                        <label for="new_pwd">New password</label><br>
+                        <input type="password" name="new_pwd" id="new_pwd"><br>
+                        <label for="confirm_pwd">Confirm new password</label><br>
+                        <input type="password" name="confirm_pwd" id="confirm_pwd">
+                        <div class="row-in-between">
+                            <button class="button form-button cancel">Cancel</button>
+                            <button class="button form-button" onclick="save('pwd')">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="history">
-        {% include 'quiz\quizzes.html' %}
+        <div class="col2">
+            <h3 id="history">History</h3>
+            <div class="history">
+            {% include 'quiz\quizzes.html' %}
+            </div>
         </div>
     </div>
 </body>

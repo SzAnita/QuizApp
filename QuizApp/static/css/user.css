@@ -38,3 +38,54 @@ div.user, div.history {
     border-radius: 120px;
     background-size:cover;
 }
+div.details div {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+button#edit{
+    margin-top: 20px;
+    margin-bottom: 5px;
+    width:100px;
+}
+.edit_hidden {
+    display: none;
+}
+.edit_visible {
+    display: block;
+}
+.row-in-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.edit_hidden, .edit_visible {
+    margin-bottom: 10px;
+}
+div.user div.details button {
+    background-color: color-mix(in srgb, blue 70%, white);
+    color: color-mix(in srgb, lightyellow 70%, orange);
+    max-block-size: 37px;
+    text-align: center;
+}
+div.user div.details button.form-button {
+    background-color: color-mix(in srgb, #29a7f6 40%, white);
+    color: #f1531e;
+}
+label {
+    font-weight: 500;
+}
+div.history img.icon{display: none}
+div.col2 h3 {
+    margin-bottom: 5px;
+    text-align: center;
+}
+h4 {margin-left: 25px}
+div.container {
+    align-content: unset;
+    flex-direction: row;
+    align-items: flex-start;
+}
+div.col1 {
+    display: flex;
+    flex-direction: column;
+}

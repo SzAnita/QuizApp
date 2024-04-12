@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 
-from QuizApp.models import QuizResult, QuestionResult, Question, Answer, AnswerResult
+from QuizApp.models import QuizResult, QuestionResult, Question, Answer, AnswerResult, QuizGroup
 
 
 @login_required(login_url='QuizApp/login')
@@ -83,8 +83,19 @@ def user_page(request):
         'username': request.user.username,
         'email': request.user.email,
         'password': pwd,
-        'group': 'true'
+        'group': 'true',
+        'auth': 'yes',
+        'quiz_group': 'yes'
     }
+    groups = []
+    for g in QuizGroup.objects.filter(owner_id=request.user):
+        group = {
+            'id': g.id,
+            'name': g.name,
+            'quizzes': g.quizzes.all()
+        }
+        groups.append(group)
+    context['groups'] = groups
     for qr in QuizResult.objects.filter(user_id=request.user):
         quiz = {
             'title': qr.quiz_id.title,
@@ -94,4 +105,5 @@ def user_page(request):
             'result_id': qr.id
         }
         context['quizzes'].append(quiz)
+
     return HttpResponse(loader.get_template('_user\page_user.html').render(context, request))
