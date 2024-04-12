@@ -14,7 +14,8 @@ def edit_quiz(request, quiz_id):
             'title': quiz.title,
             'theme': quiz.theme,
             'description': quiz.description,
-            'user': 'yes'
+            'user': 'yes',
+            'auth': 'yes'
         }
         questions = []
         for q in Question.objects.filter(quiz_id=quiz):

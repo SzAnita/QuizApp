@@ -1,241 +1,210 @@
 :root {
     --navbar-font-size: 1.5rem;
-
+    --navbar-height: 60px;
+    --user-height: calc(var(--navbar-height)*3/4)
 }
 *{
     box-sizing: border-box;
-    line-height: 2.25rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", ui-system, sans-serif;
 }
-.invalid {
-    font-size: 12px;
-    color: darkred;
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
+.sticky + .container {
+  margin-top: var(--navbar-height);
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
 
 .navbar {
     display: flex;
-    position: relative;
-    height: 60px;
+    height: var(--navbar-height);
     background-color: #1db8fc;
     align-items: center;
     justify-content: flex-start;
-    padding: 8px 0;
     overflow: hidden;
+    padding: 0;
+    width: 100%;
 }
 
-.navbar ul{
-    list-style-type: none;
+#hamburger, .top-nav, .vertical-nav.dropdown {display: none}
+
+.horizontal-nav{
     display: flex;
     align-items: center;
     padding-left: 0;
     margin-top: 0;
     flex-direction: row;
+    width: 100%;
+    height: var(--navbar-height);
 }
 
-.navbar ul li {
+.navbar a {
     float: left;
-    padding: calc((60px - 16px - var(--navbar-font-size)/(2/3))/2) 15px;
+    padding: calc((var(--navbar-height) - var(--navbar-font-size)/(7/9))/2) 15px;
     margin: 0;
     color: #FFEBAD;
     text-align: center;
+    height: var(--navbar-height);
+    line-height: calc(var(--navbar-font-size));
+    font-size: var(--navbar-font-size);
+    font-weight: bold;
 }
-a.nav-link, a.nav-link button{font-weight: 600}
-.navbar ul .right {
+
+a.nav-link, a.auth button {
+    text-decoration: none;
+    font-size: var(--navbar-font-size);
+    font-weight: bold;
+}
+.nav-link {
+    color: #FFEBAD;
+}
+a.user button {margin: 0}
+a.user {
+    float: right;
+    margin-right: 0;
+    padding: calc((var(--navbar-height) - var(--user-height)) / 2) 5px calc((var(--navbar-height) - var(--user-height)) / 2) 0 ;
+}
+a.right {
     margin-left: auto;
 }
 
-.navbar ul li button {
+.navbar button {
     border: none;
     text-align: center;
     padding: 5px 10px;
     margin: 5px;
+    color: #122ac9;
+    border-radius: 10px;
 }
-
-li a {
-    text-decoration: none;
-    color: #FFEBAD;
-}
-
 .current {
     background-color: cornflowerblue;
 }
-
-li._navbar button {
-    height: auto;
-    font-size: 1rem;
-    margin: 0;
-    float: right;
+.navbar a img, a.auth button{
+    height: var(--user-height);
 }
-div.navbar ul li._navbar {
-    padding: 0;
-    float: right;
-}
-div.navbar ul li._navbar button, li#log-out a.nav-link button{
-    height: 45px;
-    top: -12px;
-}
-li#log-out, li#log-out a.nav-link, ul.navbar-nav li.right a.nav-link, ul.navbar-nav li.right {
-    padding-left: 0;
-    float: right;
-}
-ul.navbar-nav li.right a.nav-link{padding-right: 0}
 .button {
-    position: relative;
-    bottom: 2px;
-    top: 2px;
-    font-size: 0.8rem;
     background-color: #FFEBAD;
 }
-
-.nav-link {
-    color: #FFEBAD;
-}
-
-.nav-link .right {
-    margin-left: auto;
-}
-li .nav-link button {
-    float: right;
-}
-
-ul.navbar-nav {
-    margin-right: 0;
+nav.navbar div a.user {
     margin-bottom: 0;
-    width: 100%;
-    flex-direction: row;
 }
-div.container-fluid ul.navbar-nav li.nav-item._navbar a.nav-link {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-}
-
-nav.navbar div ul.navbar-nav li.nav-item._navbar {
-    padding-right: 0;
-    margin-bottom: 0;
-    margin-right: 0;
-}
-
-div.container-fluid {
-    padding-left: 0;
-    padding-right: 0;
-    box-sizing: border-box;
-    display: flex;
-    line-height: 1.5rem;
-    justify-content: space-between;
-    width: 100%;
-}
-nav.navbar div ul li, nav.navbar div ul li button {height: 60px;}
-
-label{font-weight: 500}
-
-nav.navbar ul.navbar-nav li.nav-item.right a.nav-link button {
-    background-color:unset; !important;
-    padding: 7px 0;
-    top: -20px;
-}
-a.nav-link, a.nav-link button {font-size: 1.5rem}
-.vertical-nav {
-    display: none;
-}
-.nav-link {
-    padding: 8px;
-    display: block;
-}
-#hamburger, .top-nav{display: none}
-a{text-decoration: none}
-
-nav.navbar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-}
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-.sticky + .container {padding-top: 60px;}
-
-
 
 @media screen and (max-width: 900px){
-    a.nav-link {font-size: 1.25rem}
-    li#log-out a.nav-link button {
+    :root{
+        --navbar-font-size: 1.35rem;
+        --navbar-height: 50px;
+        --user-height: calc(var(--navbar-height)*3/4);;
+    }
+    a#log-out button {
         font-size: 1.15rem;
-        top: -9px;
+        height: calc(20px + 1.15rem);
+    }
+    a#log-out {
+        padding-top: calc((var(--navbar-height) - calc(20px + 1.15rem))/2);
+        padding-bottom: calc((var(--navbar-height) - calc(20px + 1.15rem))/2);
     }
 }
 
-@media screen and (max-width: 710px) {
-    /*nav.navbar div ul li a.two-lines {
-        height: 60px;
-        position: relative;
-        top: -5px;
-        padding:0 3px;
-    }*/
-    nav.navbar div.container-fluid ul.navbar-nav li.link {
-        padding-left:7px;
-        padding-right: 7px;
+@media screen and (max-width: 740px){
+    :root{
+        --navbar-font-size: 1.2rem;
+        --navbar-height: 40px;
+        --user-height: calc(var(--navbar-height)*3/4);;
     }
-
-    /*ul a.nav-link,  nav.navbar div ul.navbar-nav li.nav-item  a.nav-link button{
-        font-size: 1.75rem;
-    }*/
-    div.vertical-nav.dropdown.visible, div.visible ul {
-        display: flex;
-        flex-direction: column;
-        background-color: #C3F8FF;
+    a#log-out button {
+        font-size: 1rem;
+        height: calc(15px + 1rem);
     }
-    div.visible ul .nav-link{color: #f6a74c}
+    a#log-out {
+        padding-top: calc((var(--navbar-height) - calc((15px + 1rem)))/2);
+        padding-bottom: calc((var(--navbar-height) - calc(15px + 1rem)/2));
+    }
 }
 
-@media screen and (max-width: 575px) {
-     .nav-link {
+/*@media screen and (max-width: 680px){
+    .navbar a.nav-link {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}*/
+
+@media screen and (max-width: 680px){
+    .navbar a.two-lines {
+        padding: calc((var(--navbar-height) - 2 * var(--navbar-font-size) / (7 / 9)) / 2) 0;
+        width: 80px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+@media  screen and (max-width: 570px){
+    .navbar a.two-lines {
+        margin: 0 5px;
+    }
+
+}
+
+@media screen and (max-width: 540px) {
+
+     .navbar {
          --navbar-font-size: 1.75rem;
-        position: relative;
-        top: -2px;
+         flex-direction: column;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
     }
     #logo, #hamburger{
         display: flex;
     }
-    #hamburger {
+    div#hamburger {
         display: flex;
         position: absolute;
         top: 0;
         left: 0;
         background: #FFEBAD;
         color: #1db8fc;
-        padding: 12px 21px;
+        height: var(--navbar-height);
+        width: 45px;
+    }
+    #hamburger a {
+        background: #FFEBAD;
+        color: #1db8fc;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .vertical-nav {
         display: flex;
     }
-    nav.navbar div.container-fluid, div.vertical-nav.dropdown{display:none}
-    nav.navbar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+    .vertical-nav a.right {
+        padding-top: calc((var(--navbar-height) - var(--user-height))/2);
+        padding-bottom: calc((var(--navbar-height) - var(--user-height))/2);
     }
+    div.horizontal-nav, div.vertical-nav.dropdown{display:none}
     #logo {
         margin: auto;
     }
     .top-nav{
         display: flex;
         flex-direction: row;
-        width: calc(100% - 56px);
+        width: calc(100% - 45px);
         position: absolute;
         right: 0;
     }
-    nav.navbar div.top-nav div#logo  a.nav-link,  nav.navbar div.top-nav div ul li a button{
-        font-size: 1.75rem;
+    div.vertical-nav.dropdown.visible {
+        display: flex;
+        flex-direction: column;
+        background-color: color-mix(in srgb, #C3F8FF 40%, #1db8fc);
     }
-    ul.navbar-nav li#log-out.nav-item a.nav-link button {
-        height: 45px;
-        top: -8px;
-        padding-top: 0;
+    .vertical-nav.dropdown.visible a {
+        padding: 5px 0;
+        font-size: 1.35rem;
     }
+    div.visible ul .nav-link{color: #f6a74c}
 }

@@ -6,7 +6,7 @@
         document.querySelector("div.vertical-nav.dropdown").classList.toggle("visible");
     }
     window.onscroll =function () {
-        let navbar = document.querySelector("nav.navbar");
+        let navbar = document.getElementById("navbar");
         let sticky = navbar.offsetTop;
         if (window.scrollY >= sticky) {
             navbar.classList.add("sticky");
@@ -15,3 +15,38 @@
         }
     }
 </script>
+<div id="navbar">
+<nav class="navbar">
+    <div id="hamburger">
+        <a href="javascript:void(0);" onclick="display_navbar()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <div class="top-nav">
+        <div id="logo">
+            <a href="{% url 'home' %}" style="text-align: center" class="nav-link">QuizLearning</a>
+        </div>
+        <div class="vertical-nav">
+            <a href="{% url 'user' %}" class="nav-link right user"><img src="{%  static 'images/user.png' %}" height="50px"></a>
+        </div>
+    </div>
+    <div class="horizontal-nav">
+        <a class="nav-link" href="{% url 'home' %}">QuizLearning</a>
+        <a class="nav-link two-lines" href="{% url 'quiz' %}">Create Quiz</a>
+        <a class="nav-link two-lines" href="{% url 'my_quizzes' %}">My Quizzes</a>
+        <a class="nav-link two-lines" href="{% url 'quiz_group' %}">Quiz Groups</a>
+        {% if auth == 'yes' %}
+        <a href="{% url 'user' %}" class=" user right"><img src="{%  static 'images/user.png' %}" height="50px"></a>
+        <a href="{% url 'logout/' %}" class=" user auth" id="log-out"><button class="button title">Log out</button></a>
+        {% else %}
+            <a href="{% url 'QuizApp/login' %}" class="user right auth"><button class="button title">Log In</button></a>
+        {% endif %}
+    </div>
+</nav>
+<div class="vertical-nav dropdown">
+        <a class="nav-link" href="{% url 'quiz' %}">Create Quiz</a>
+        <a class="nav-link" href="{% url 'my_quizzes' %}">My Quizzes</a>
+        <a class="nav-link" href="{% url 'quiz_group' %}">Quiz Groups</a>
+        <a class="nav-link" href="{% url 'logout/' %}">Log Out</a>
+    </div>
+</div>
