@@ -1,0 +1,68 @@
+td > button.button {
+    margin: 5px;
+    padding: 1px 10px;
+    background-color: #d7f9fd;
+    border-radius: 7px;
+}
+div.bottom {margin-top: 0;}
+div.container {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+h3 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+tr.group-content.visible {display: table-row}
+div.save-quiz {padding-left: 50px;}
+div.new-group > input {
+    margin: 10px 0;
+    border-radius: 10px;
+}
+.save-quiz button {margin-bottom: 5px;}
+div.container > h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-self: center;
+    margin-left: 20%;
+}
+
+td {
+    padding: 5px;
+    /*width: fit-content;*/
+}
+tr.group-content {display: none}
+td.group_header {
+    display: flex;
+    flex-direction: row;
+}
+div.container > table {margin-left: 10%}
+table.quizzes {margin-left: 5%}
+tr.mobile {display: none}
+/*@media screen and (max-width: 768px) {
+    div.container {
+        align-content: center;
+    }
+    div.container > h2 {margin-left: 0}
+    div.container > table {
+        /*align-self: flex-start;
+        margin-left: 0;
+        /*padding-left: 20px;
+    }
+}*/
+
+@media screen and (max-width: 470px){
+    div.container > table {margin-left: 20px}
+    div.container {
+        align-content: flex-start;
+        padding: 0;
+    }
+    table.quizzes {margin-left: 5%}
+    td {padding: 0}
+}
+
+@media screen and (max-width: 450px) {
+    td.desktop {display: none}
+    tr.mobile {display: table-row}
+}
+
