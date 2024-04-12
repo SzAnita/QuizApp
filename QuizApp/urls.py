@@ -12,8 +12,8 @@ from QuizApp.views.quiz import SolveQuizView as Solve, search as s, QuestionView
 urlpatterns = [
     path('home', index.index, name='home'),
     path('signup/', uv.UserView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(template_name='login.html'), name='QuizApp/login'),
-    path('logout/', LogoutView.as_view(template_name='index.html', next_page='home'), name='logout'),
+    path('login/', LoginView.as_view(template_name='authentication/login.html'), name='QuizApp/login'),
+    path('logout/', LogoutView.as_view(template_name='index.html', next_page='home'), name='logout/'),
     path('quizzes/<str:quiz_title><int:quiz_id>', Solve.SolveQuizView.as_view(), name='solve'),
     path('search', s.search, name='search'),
     path('user/create_quiz/question/<int:quiz_id>', Question.QuestionView.as_view(login_url='QuizApp/login'), name='create_quiz'),
