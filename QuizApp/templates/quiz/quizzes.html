@@ -1,91 +1,11 @@
 {% load static %}
 {% for q in quizzes %}
-        <div class="quiz-container">
-            <ul>
-                <li><h3 class="title">{{ q.title }}</h3></li>
-                <li><b class="title">Theme: </b>{{ q.theme }}</li>
-                <li><i class="title">Description: </i>{{ q.description }}</li>
-                <a href="quizzes/{{ q.title }}{{ q.id }}"><button class="button title">Solve Quiz</button></a><br>
-                {% if report == 'report' %}
-                    <a href="report/{{ q.result_id }}"><button class="button title">Report</button></a>
-                {% endif %}
-            </ul>
-            <div class="bottom">
-            {% if user == 'my_quizzes' %}
-                    <a href="../user/edit/{{ q.id }}"><img class="icon" src="{% static 'images/edit.png' %}" height="50px"></a>
-                    <img class="icon" src="{%  static 'images/delete.png' %}" height="50px" onclick="cancel_quiz({{ q.id }})">
-            {% endif %}
-            {% if group == 'true' %}
-                <div class="group-button">
-                    <button type="button" class="button btn btn-primary" data-bs-toggle="modal" data-bs-target="#addToGroup{{ q.id }}">Add to quiz group</button>
-                    <div class="modal" id="addToGroup{{ q.id }}">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Add quiz to a quiz group</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <form class="add_to_group">
-                                    <div class="modal-body">
-                                        {% csrf_token %}
-                                        <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
-                                        {% for g in groups %}
-                                        <label for="group"><input type="radio" id="group{{ g }}" name="group" value="{{ username }}"></label><br>
-                                        {% endfor %}
-                                        <a onclick="new_group({{ q.id }})">Create new quiz group</a>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            </div>
-        </div>
-    {% endfor %}
+    {% include 'quiz/quiz-box.html' %}
+{% endfor %}
+<link rel="stylesheet", type="text/css", href="{% static 'css/quiz-box.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{% static 'js/quiz_group.js' %}"></script>
 <script src="{% static 'js/csrf_cookie.js' %}"></script>
-<style>
-    div.quiz-container ul {
-        list-style-type: none;
-        padding-left: 0;
-        margin: 10px 0 0;
-    }
-    li {
-        margin: 5px;
-    }
-    .quiz-container {
-        max-inline-size: 300px;
-        min-inline-size: 250px;
-        inline-size: fit-content;
-    }
-    h3 {
-        margin-top: 16px;
-    }
-    .icon {
-        padding-bottom: 10px;
-        height: 50px;
-    }
-    .button {
-        margin: 10px 0;
-        font-size: 0.75em;
-        border-radius: 10px;
-        max-inline-size: fit-content;
-        padding: 5px 20px;
-        font-size: 1em;
-    }
-    button.button.btn.btn-primary {
-        color: #122ac9;
-    }
-    .quiz-container{
-        display: flex;
-        flex-direction: column;
-        max-block-size: 330px;
-    }
-    .bottom {margin-top: auto}
-</style>
+
+

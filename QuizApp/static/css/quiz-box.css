@@ -1,0 +1,62 @@
+div.quiz-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 5px 0 0;
+}
+li {
+    margin: 5px;
+}
+.quiz-container {
+    max-inline-size: 250px;
+    min-inline-size: 200px;
+    inline-size: fit-content;
+    display: flex;
+    flex-direction: column;
+    block-size: 330px;
+}
+h3 {
+    margin-top: 5px;
+}
+.icon {
+    padding-bottom: 10px;
+    height: 50px;
+}
+.button {
+    margin: 10px 0;
+    font-size: 0.75em;
+    border-radius: 10px;
+    max-inline-size: fit-content;
+    padding: 3px 10px;
+    font-size: 1em;
+}
+button.button.btn.btn-primary {
+    color: #122ac9;
+}
+.bottom {
+    margin-top: auto;
+}
+.container {flex-wrap: wrap}
+div.new-group > input {
+    margin: 10px 0;
+    border-radius: 10px;
+    line-height: 16px;
+}
+div.new-group > div {
+    display: flex;
+    justify-content: space-between;
+}
+div.new-group {inline-size: 200px}
+div.modal-content button.btn-create {background-color: #1db8fc;}
+div.modal-content button.btn-cancel {
+    background-color: darkred;
+}
+div.modal-content button.btn {
+    color: white;
+    border-radius: 10px;
+    padding: 3px 10px;
+}
+.list-group {
+    max-height: 150px;
+    overflow-y: auto;
+}
+.modal-dialog {width: 400px}
