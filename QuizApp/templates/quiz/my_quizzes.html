@@ -9,6 +9,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{% static 'js/csrf_cookie.js' %}"></script>
     <script>
+        $(document).ready(function (){
+            if ($(".horizontal-nav a.current").length > 0) {
+                $(".horizontal-nav a.current").removeClass("current");
+            }
+            $(".horizontal-nav").children().eq(2).addClass("current");
+        });
+
         function cancel_quiz(quiz){
             const csrf = getCSRFToken();
             $.ajax({
@@ -28,14 +35,18 @@
     </script>
     <style>
         nav.navbar div ul li {height: unset;}
+        div.quiz-container {
+            margin: 20px 20px;
+        }
+        @media screen and (max-width: 820px) {
+            div.container {padding-left: 30px}
+        }
     </style>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div class="container" style="flex-direction: column">
-        <div class="container">
+    <div class="container" >
         {% include 'quiz\quizzes.html' %}
-        </div>
     </div>
 </body>
 </html>
