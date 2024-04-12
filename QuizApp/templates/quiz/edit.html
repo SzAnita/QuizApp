@@ -19,26 +19,7 @@
             display: block;
         }
         h2 {text-align: center;}
-        table#questions {
-            {#border: 1px solid black;#}
-            {% comment %}border-radius: 5px;
-            border: solid #122ac9 5px;{% endcomment %}
-        }
-        #question-border{
-            border: solid #122ac9 5px;
-            border-radius: 5px;
-            padding: 0;
-            margin:5px 0;
-        }
-        #answer-border{
-            border: solid #d4550b 4px;
-            border-radius: 7px;
-            padding: 0;
-            margin:0;
-        }
         button {
-            position: relative;
-            bottom: 5px;
             font-size: 1.2em;
             background-color: #C3F8FF;
         }
@@ -47,9 +28,9 @@
         }
         .my_border {
             border: solid #fca31d 5px;
-            border-radius: 5px;
+            border-radius: 10px;
             padding: 0 5px;
-            background-color: #C3F8FF;
+            background-color: #fcd7a4;
         }
         .btn-primary {
             margin: 10px 5px 5px;
@@ -105,6 +86,27 @@
         .icon {
             padding-bottom: 10px;
             height: 50px;
+            margin: 10px;
+        }
+
+        table tr:first-child th:first-child {
+          border-top-left-radius: 6px;
+        }
+
+        table tr:first-child th:last-child {
+          border-top-right-radius: 6px;
+        }
+
+        table tr:last-child td:first-child {
+          border-bottom-left-radius: 6px;
+        }
+
+        table tr:last-child td:last-child {
+          border-bottom-right-radius: 6px;
+        }
+        th {padding: 5px}
+        h4{
+            margin: 20px 0 10px;
         }
     </style>
 </head>
@@ -129,7 +131,7 @@
                     <td>{{ description }}</td>
                 </tr>
             </table>
-            <a data-bs-toggle="modal" data-bs-target="#editTitle"><img class="icon" src="{%  static 'images/edit.png' %}"></a>
+            <a data-bs-toggle="modal" data-bs-target="#editTitle"><img class="icon" src="{%  static 'images/edit4.png' %}"></a>
             <div class="modal" id="editTitle">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -156,7 +158,6 @@
             </div>
         </div>
             <h4>Questions:</h4>
-            <div id="question-border">
             <table id="questions">
                 <tr>
                     <th>Question</th>
@@ -172,7 +173,6 @@
                         <td>{{ q.type }}</td>
                         <td>{{ q.points }}</td>
                         <td id="answers" style="padding: 0">
-                            <div id="answer-border">
                             <table>
                             <tr>
                                 <th>Answer</th>
@@ -187,7 +187,7 @@
                                     <td class="correct">{{ a.correct }}</td>
                                     <td>{{ a.point }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAnswer{{ a.id }}">Edit</button>
+                                        <a data-bs-toggle="modal" data-bs-target="#editAnswer{{ a.id }}"><img class="icon" src="{% static 'images/edit4.png' %}"></a>
                                             <div class="modal" id="editAnswer{{ a.id }}">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -218,7 +218,7 @@
                                                 </div>
                                             </div>
                                     </td>
-                                    <td><button type="button" class="btn btn-primary delete-answer" id="{{ a.id }}">Delete</button></td>
+                                    <td><a class="delete-answer" id="{{ a.id }}"><img class="icon" src="{% static 'images/delete.png' %}"></a></td>
                                 </tr>
                             {% endfor %}
                             <tr>
@@ -256,10 +256,9 @@
                                 </td>
                             </tr>
                         </table>
-                            </div>
                         </td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQuestion{{ q.id }}">Edit</button>
+                        <td class="">
+                            <a data-bs-toggle="modal" data-bs-target="#editQuestion{{ q.id }}"><img class="icon" src="{% static 'images/edit4.png' %}"></a>
                             <div class="modal" id="editQuestion{{ q.id }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -289,11 +288,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td><button type="button" class="btn btn-primary delete-question" id="{{ q.id }}">Delete</button></td>
+                        <td><a class="delete-question" id="{{ q.id }}"><img class="icon" src="{% static 'images/delete.png' %}"></a></td>
                     </tr>
                 {% endfor %}
             </table>
-            </div>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestion">Add Question</button>
             <div class="modal" id="addQuestion">
                 <div class="modal-dialog">
