@@ -20,20 +20,9 @@ class User(AbstractUser):
             return self.email
 
 
-class QuizGroup(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True)
-    owner_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=False)
-    public = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
-
-
 class Quiz(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
     owner_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    group_id = models.ForeignKey('QuizGroup', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=100, null=False)
     theme = models.CharField(max_length=40, null=True)
     description = models.CharField(max_length=255, null=True)
@@ -42,6 +31,20 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class QuizGroup(models.Model):
+    id = models.IntegerField(primary_key=True, unique=True)
+    owner_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, null=False)
+    public = models.BooleanField(default=False)
+    quizzes = models.ManyToManyField(Quiz, related_name='quizgroup')
+
+    def __str__(self):
+        quizzes = ""
+        for q in self.quizzes.all():
+            quizzes = quizzes + q.__str__() + ", "
+        return self.name + ":\n"+quizzes
 
 
 class Question(models.Model):
