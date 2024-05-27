@@ -3,8 +3,8 @@ div.container div.user {
     flex-direction: column;
     justify-content: flex-start;
     width: fit-content;
-    min-width: 330px;
-    max-width: 380px;
+    min-width: 240px;
+    max-width: 280px;
     background-color: rgba(248, 211, 184, 0.15);
     color: #122ac9;
     font-size: 1.1em;
@@ -88,4 +88,13 @@ div.container {
 div.col1 {
     display: flex;
     flex-direction: column;
+}
+
+.history > .quiz-container {max-inline-size: 240px;}
+
+@media screen and (max-width: 1205) {
+    div.container.container-fluid{width: 100%;}
+    div.col2 div.history > div.quiz-container{
+        max-inline-size: 220px;
+    }
 }
