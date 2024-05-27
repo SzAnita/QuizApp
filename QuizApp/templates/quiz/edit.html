@@ -5,14 +5,14 @@
   <title>Edit {{ title }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://gcore.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://gcore.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{% static 'js/edit.js' %}"></script>
     <script src="{% static 'js/csrf_cookie.js' %}"></script>
     <style>
         .container {
-            max-inline-size: 70%;
+            max-inline-size: 80%;
             background-color: #FFF6BF;
             border-radius: 10px;
             margin: auto;
@@ -61,7 +61,7 @@
             padding: 0;
             border-spacing: 0;
         }
-        td.add_answer {
+        td.add-answer {
             width: 100%;
         }
         table,th td {
@@ -108,6 +108,16 @@
         h4{
             margin: 20px 0 10px;
         }
+        @media screen and (max-width: 950px) {
+            .container {max-inline-size: 90%;}
+            table#head {font-size: 1.3rem;}
+            .icon {height: 40px;}
+        }
+        @media screen and (max-width: 780px) {
+            .container {max-inline-size: 100%;}
+            th, td {padding: 2px;}
+            .icon {margin: 5px;}
+        }
     </style>
 </head>
 <body>
@@ -120,15 +130,15 @@
             <table id="head">
                 <tr>
                     <td>Title:</td>
-                    <td>{{ title }}</td>
+                    <td id="title_val">{{ title }}</td>
                 </tr>
                 <tr>
                     <td>Subject:</td>
-                    <td>{{ theme }}</td>
+                    <td id="subject_val">{{ theme }}</td>
                 </tr>
                 <tr>
                     <td>Description:</td>
-                    <td>{{ description }}</td>
+                    <td id="desc_val">{{ description }}</td>
                 </tr>
             </table>
             <a data-bs-toggle="modal" data-bs-target="#editTitle"><img class="icon" src="{%  static 'images/edit4.png' %}"></a>
@@ -141,7 +151,7 @@
                         <form class="edit_title" id="edit_title">
                             <div class="modal-body">
                                 {% csrf_token %}
-                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id">
                                 <label for="title">Title: </label><br>
                                 <input type="text" id="title" name="title" value="{{ title }}"><br>
                                 <label for="theme">Subject: </label><br>
@@ -150,7 +160,7 @@
                                 <textarea rows="5" cols="50" id="description" name="description" placeholder="Description">{{ description }}</textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="edit_head({{ quiz_id }})">Save</button>
+                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
                             </div>
                         </form>
                     </div>
@@ -172,7 +182,7 @@
                         <td>{{ q.question }}</td>
                         <td>{{ q.type }}</td>
                         <td>{{ q.points }}</td>
-                        <td id="answers" style="padding: 0">
+                        <td id="answers" style="padding: 0;">
                             <table>
                             <tr>
                                 <th>Answer</th>
@@ -197,7 +207,7 @@
                                                         <form class="edit_answer">
                                                             <div class="modal-body">
                                                                 {% csrf_token %}
-                                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id">
                                                                 <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
                                                                 <input type="text" hidden="hidden" value="{{ a.id }}" name="answer_id">
                                                                 <label for="answer">Answer: </label><br>
@@ -222,7 +232,7 @@
                                 </tr>
                             {% endfor %}
                             <tr>
-                                <td class="add_answer" colspan="5">
+                                <td class="add-answer" colspan="5">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAnswer{{ q.id }}">Add Answer</button>
                                     <div class="modal" id="addAnswer{{ q.id }}">
                                         <div class="modal-dialog">
@@ -234,7 +244,7 @@
                                                 <form class="add_answer" method="post">
                                                     <div class="modal-body">
                                                         {% csrf_token %}
-                                                        <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                        <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id">
                                                         <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
                                                         <label for="answer">Answer: </label><br>
                                                         <textarea id="answer_q{{ q.id }}" name="answer"></textarea><br>
@@ -247,7 +257,7 @@
                                                         <input type="number" name="points" id="points{{ q.id }}">
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="send_answer({{ q.id }})">Save</button>
+                                                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -269,7 +279,7 @@
                                         <form class="edit_question">
                                             <div class="modal-body">
                                                 {% csrf_token %}
-                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id" id="quiz_id">
+                                                <input type="text" hidden="hidden" value="{{ quiz_id }}" name="quiz_id">
                                                 <input type="text" hidden="hidden" value="{{ q.id }}" name="question_id">
                                                 <label for="question">Question: </label><br>
                                                 <textarea id="question{{ q.id }}" name="question">{{ q.question }}</textarea><br>

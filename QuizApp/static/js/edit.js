@@ -3,7 +3,7 @@ let answer_nr = 2;
 $(document).on("submit", ".edit_title", function (event) {
     event.preventDefault();
     $.ajax({
-        url: '../quiz/',
+        url: '../quiz/'+$('[name=quiz_id]').val(),
         type: 'PUT',
         headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()},
         contentType: 'application/JSON',
@@ -14,9 +14,12 @@ $(document).on("submit", ".edit_title", function (event) {
             'quiz_id': $('[name=quiz_id]').val()
         },
         success: function (data) {
-            $('#title').text('Title: '+$('[name=title]').val());
-            $('#theme').text('Theme: '+$('[name=theme]').val());
-            $('#description').text('Description: '+$('[name=description]').val());
+            $('#title_val').text($('[name=title]').val());
+            $('#theme_val').text($('[name=theme]').val());
+            $('#desc_val').text($('[name=description]').val());
+        },
+        error: function (data) {
+            alert(JSON.parse(data.responseText)['msg']);
         }
     })
 })
@@ -293,7 +296,7 @@ function append_answer(answer, correct, points, answer_id) {
     let cell_answer = $("<td></td>").text(answer);
     let cell_correct = $("<td></td>").text(correct);
     let cell_points = $("<td></td>").text(points)
-    let cellEdit = $('<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAnswer' + answer_id + '">Edit</button>\n' +
+    let cellEdit = $('<td><img src="/static/images/edit4.png" class="icon" data-bs-toggle="modal" data-bs-target="#editAnswer' + answer_id + '">\n' +
         '<div class="modal" id="editAnswer' + answer_id + '"><div class="modal-dialog"><div class="modal-content">\n' +
         '<div class="modal-header"><h4 class="modal-title">Edit Answer</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>\n' +
         '</div><form class="edit_answer"><div class="modal-body">\n' +
@@ -303,7 +306,7 @@ function append_answer(answer, correct, points, answer_id) {
         '</div><div class="modal-footer">\n' +
         '<button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button></div></form>\n' +
         '</div></div></div></td>');
-    let cellDelete = $('<td><button type="button" class="btn btn-primary delete-answer" id="'+answer_id+'">Delete</button></td>')
+    let cellDelete = $('<td><img src="/static/images/delete.png" class="delete-answer icon" id="'+answer_id+'"></td>')
     row.append(cell_answer, cell_correct, cell_points, cellEdit, cellDelete);
     return row;
 }
