@@ -4,12 +4,51 @@
                 <li><h3 class="title">{{ q.title }}</h3></li>
                 <li><b class="title">Theme: </b>{{ q.theme }}</li>
                 <li class="desc"><i class="title">Description: </i>{{ q.description }}</li>
-                {% if my_groups == 'yes' %}
-                <button class="button title">Save</button>
-                <button class="button title">Remove</button>
-                {% endif %}
             </ul>
             <div class="bottom">
+                {% if my_groups == 'yes' %}
+                <button class="button title">Solve</button>
+                <div style="float: right;">
+                    <img class="icon" src="{% static 'images/save5.jpg' %}" height="50px" data-bs-toggle="modal" data-bs-target="#addToGroup{{ q.id }}">
+                    <div class="modal" id="addToGroup{{ q.id }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add "{{ q.title }}" to...</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <form class="add_to_group">
+                                        <div class="modal-body">
+                                            <p>Choose quiz group</p>
+                                                {% csrf_token %}
+                                                <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
+                                                <div class="group-list">
+                                                    {% for g in groups %}
+                                                        <input type="checkbox" id="group{{ g.id }}" name="group" value="{{ g.name }}">
+                                                        <label for="{{ g.name }}">{{ g.name }}</label><br>
+                                                    {% endfor %}
+                                                </div>
+                                                <br>
+                                                <hr>
+                                                 <div class="new-group">
+                                                    <label for="new_group_name">Name of new group </label><br>
+                                                    <input type="text" width="200px" name="new_group_name" id="new_group_name" maxlength="200">
+                                                    <div>
+                                                        <button class="btn btn-cancel">Cancel</button>
+                                                        <button class="btn btn-create">Create</button>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <img class="icon" src="{%  static 'images/delete.png' %}" height="50px" onclick="remove_from({{ q.id }}, {{ g.id }})">
+                </div>
+                <!--button class="button title">Remove</button-->
+                {% endif %}
             {% if user == 'my_quizzes' %}
                     <a href="../user/edit/{{ q.id }}"><img class="icon" src="{% static 'images/edit.png' %}" height="50px"></a>
                     <img class="icon" src="{%  static 'images/delete.png' %}" height="50px" onclick="cancel_quiz({{ q.id }})">
@@ -19,12 +58,13 @@
             {% endif %}
             {% if group == 'true' %}
                 <div class="group-button">
-                    <button class="button title"><a href="quizzes/{{ q.title }}{{ q.id }}">Solve</a></button>
+                    <button class="button title"><a href="../quizzes/{{ q.title }}{{ q.id }}">Solve</a></button>
                 {% if report == 'report' %}
                     <a href="report/{{ q.result_id }}" class="report"><button class="button title">Report</button></a>
                 {% endif %}
-                    <button type="button" class="button title" style="float: right" data-bs-toggle="modal" data-bs-target="#addToGroup{{ q.id }}">Save</button>
-                    <div class="modal" id="addToGroup{{ q.id }}">
+                    <button class="button title" style="float: right;" data-bs-toggle="modal" data-bs-target="#addToGroup{{ q.id }}">Save</button>
+                <!--a><img class="icon" src="{% static 'images/save5.jpg' %}" height="50px" data-bs-toggle="modal" data-bs-target="#addToGroup{{ q.id }}"></a-->
+                <div class="modal" id="addToGroup{{ q.id }}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -32,25 +72,25 @@
                                 </div>
                                 <form class="add_to_group">
                                     <div class="modal-body">
-                                    <p>Choose quiz group</p>
-                                        {% csrf_token %}
-                                        <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
-                                        <div class="group-list">
-                                        {% for g in groups %}
-                                            <input type="checkbox" id="group{{ g.id }}" name="group" value="{{ g.name }}">
-                                            <label for="{{ g.name }}">{{ g.name }}</label><br>
-                                        {% endfor %}
-                                        </div>
-                                        <br>
-                                        <hr>
-                                         <div class="new-group">
-                                            <label for="new_group_name">Name of new group </label><br>
-                                            <input type="text" width="200px" name="new_group_name" id="new_group_name" maxlength="200">
-                                            <div>
-                                                <button class="btn btn-cancel">Cancel</button>
-                                                <button class="btn btn-create">Create</button>
+                                        <p>Choose quiz group</p>
+                                            {% csrf_token %}
+                                            <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
+                                            <div class="group-list">
+                                                {% for g in groups %}
+                                                    <input type="checkbox" id="group{{ g.id }}" name="group" value="{{ g.name }}">
+                                                    <label for="{{ g.name }}">{{ g.name }}</label><br>
+                                                {% endfor %}
                                             </div>
-                                        </div>
+                                            <br>
+                                            <hr>
+                                             <div class="new-group">
+                                                <label for="new_group_name">Name of new group </label><br>
+                                                <input type="text" width="200px" name="new_group_name" id="new_group_name" maxlength="200">
+                                                <div>
+                                                    <button class="btn btn-cancel">Cancel</button>
+                                                    <button class="btn btn-create">Create</button>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>

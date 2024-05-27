@@ -21,6 +21,7 @@
         });
 
         function remove_from(quiz_id, group_id) {
+            quiz = $(this).closest("div.quiz-container");
             $.ajax({
                 url: 'quiz_group',
                 type: 'PUT',
@@ -31,13 +32,13 @@
                     'type': 'remove'
                 },
                 success: function (data) {
-                    $("div#remove"+group_id+quiz_id).remove();
+                    quiz.remove();
                 }
             })
         }
 
-        $(document).on("click", ".group_header", function (event) {
-            $(this).parent().next().toggleClass("visible");
+        $(document).on("click", ".group-head", function (event) {
+            $(this).parent().parent().parent().next().toggleClass("visible");
         })
 
     </script>
@@ -46,142 +47,49 @@
     {% include 'navbar.html' %}
     <div class="container">
         <h2 class="title"> Your Quiz Groups</h2>
-        <table>
             {% for g in groups %}
-                <tr>
-                    <td class="group_header">
-                        <h3>{{ g.name }}</h3>
-                        <img src="{% static 'images/down.png' %}" height="35px" width="35px">
-                    </td>
-                    <td>
-                        <a data-bs-toggle="modal" data-bs-target="#editGroup{{ g.id }}"><img src="{% static 'images/edit4.png' %}" height="30px"></a>
-                        <div class="modal" id="editGroup{{ g.id }}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Group</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <table>
+                    <tr class="group_header">
+                        <td class="group-head">
+                            <div style="display: flex; ">
+                                <h3>{{ g.name }}</h3>
+                                <img src="{% static 'images/down.png' %}" height="35px" width="35px">
+                            </div>
+                        </td>
+                        <td>
+                            <a data-bs-toggle="modal" data-bs-target="#editGroup{{ g.id }}"><img src="{% static 'images/edit4.png' %}" height="30px" alt="edit quizgroup"></a>
+                            <div class="modal" id="editGroup{{ g.id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Edit Group</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <form class="edit_group" id="edit_group{{ g.id }}">
+                                                <div class="modal-body">
+                                                    {% csrf_token %}
+                                                    <input type="text" hidden="hidden" value="{{ g.id }}" name="group_id">
+                                                    <label for="title">Group name: </label><br>
+                                                    <input type="text" name="g_name" value="{{ g.name }}" placeholder="{{ g.name }}"><br>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="edit_head({{ quiz_id }})">Save</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form class="edit_group" id="edit_group{{ g.id }}">
-                                            <div class="modal-body">
-                                                {% csrf_token %}
-                                                <input type="text" hidden="hidden" value="{{ g.id }}" name="group_id">
-                                                <label for="title">Group name: </label><br>
-                                                <input type="text" name="g_name" value="{{ g.name }}" placeholder="{{ g.name }}"><br>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="edit_head({{ quiz_id }})">Save</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                    </td>
-                </tr>
-                <tr class="group-content">
-                    <td>
-                        <table class="quizzes">
-                            {%  for q in g.quizzes.all %}
-                                <tr class="quiz_header" id="remove{{g.id}}{{q.id}}">
-                                    <td><h4>{{ q.title }}</h4></td>
-                                    <td class="desktop">
-                                        <button class="button"><a href="{% url 'solve' q.title q.id %}">Solve</a></button>
-                                    </td>
-                                    <td class="desktop">
-                                        <button type="button" class="button save" data-bs-toggle="modal" data-bs-target="#save-quiz{{q.id}}">Save</button>
-                                        <div id="save-quiz{{ q.id }}" class="modal">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Add "{{ q.title }}" to...</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <form class="add_to_group">
-                                                        <div class="modal-body">
-                                                            {% csrf_token %}
-                                                            <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
-                                                            <div class="group-list">
-                                                                {% for g in groups %}
-                                                                    <input type="checkbox" id="group{{ g.id }}" name="group" value="{{ g.name }}">
-                                                                    <label for="{{ g.name }}">{{ g.name }}</label><br>
-                                                                {% endfor %}
-                                                                <br><br>
-                                                                <hr>
-                                                                <div class="new-group">
-                                                                    <input type="text" hidden="hidden" name="quiz_id" id="{{ q.id }}" value="{{ q.id }}">
-                                                                    <label for="new_group_name">Name of new group </label><br>
-                                                                    <input type="text" width="200px" name="new_group_name" id="new_group_name" maxlength="200">
-                                                                    <div class="create-quiz-buttons">
-                                                                        <button class="btn btn-cancel">Cancel</button>
-                                                                        <button type="submit" class="btn btn-create" style="float: right;">Create</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="desktop">
-                                        <button class="button" onclick="remove_from({{q.id}}, {{g.id}})">Remove</button>
-                                    </td>
-                                </tr>
-                                <tr class="mobile">
-                                    <td>
-                                        <button class="button"><a href="{% url 'solve' q.title q.id %}">Solve</a></button>
-                                        <button type="button" class="button save" data-bs-toggle="modal" data-bs-target="#save-quiz{{q.id}}">Save</button>
-                                        <div id="save-quiz{{ q.id }}" class="modal">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Add "{{ q.title }}" to...</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <form class="add_to_group">
-                                                        <div class="modal-body">
-                                                            {% csrf_token %}
-                                                            <input type="text" hidden="hidden" value="{{ q.id }}" name="quiz_id">
-                                                            <div class="group-list">
-                                                                {% for g in groups %}
-                                                                    <input type="checkbox" id="group{{ g.id }}" name="group" value="{{ g.name }}">
-                                                                    <label for="{{ g.name }}">{{ g.name }}</label><br>
-                                                                {% endfor %}
-                                                                <br><br>
-                                                                <hr>
-                                                                <div class="new-group">
-                                                                    <input type="text" hidden="hidden" name="quiz_id" id="{{ q.id }}" value="{{ q.id }}">
-                                                                    <label for="new_group_name">Name of new group </label><br>
-                                                                    <input type="text" width="200px" name="new_group_name" id="new_group_name" maxlength="200">
-                                                                    <div class="create-quiz-buttons">
-                                                                        <button class="btn btn-cancel">Cancel</button>
-                                                                        <button type="submit" class="btn btn-create" style="float: right;">Create</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <br>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="button" onclick="remove_from({{q.id}}, {{g.id}})">Remove</button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <a ><img src="{% static 'images/delete.png' %}" height="30px" alt="delete quizgroup" class="delete-quizgroup" id="{{ g.id }}"></a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="group-content">
+                    {%  for q in g.quizzes.all %}
+                        {% include 'quiz/quiz-box.html' %}
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </table>
     </div>
 </body>
 </html>
