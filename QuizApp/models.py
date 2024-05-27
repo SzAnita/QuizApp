@@ -3,21 +3,19 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from QuizAppSettings import  settings
 from django.utils import timezone
 
 
 class User(AbstractUser):
-    email = models.EmailField(max_length=100, null=False, unique=True)
+    email = models.EmailField(max_length=40, null=False, unique=True)
     password = models.CharField(max_length=90, null=False,
                                 validators=[MinLengthValidator(6, 'the password must be at least 6 characters long')])
     name = models.CharField(max_length=70, null=True)
-    username = models.CharField(null=True, unique=True, max_length=30)
+    username = models.CharField(null=True, unique=True, max_length=20)
 
     def __str__(self):
-        if self.name is not None:
-            return self.name
-        else:
-            return self.email
+            return f'{self.username}, {self.email}'
 
 
 class Quiz(models.Model):
