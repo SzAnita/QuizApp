@@ -18,7 +18,7 @@
             flex-direction: column;
             align-self: center;
             margin-top: 10px;
-            padding: 25px 50px 25px;
+            /*padding: 25px 50px 25px;*/
         }
 
         input, select {
@@ -28,7 +28,7 @@
         #cancel {
             float: right;
         }
-        .container {
+        div.container {
             flex-direction: column;
             color: #122ac9;
             justify-content: flex-start;
@@ -63,8 +63,12 @@
             padding: 0;
             height: 100%;
         }
-        div.buttons button {
+        div.buttons button, div.buttons input[type='submit'] {
             font-size: 1.25rem;
+        }
+        div.buttons input[type='submit'] {
+            background-color: #FFEBAD;
+            block-size: fit-content;
         }
         @media screen and (max-width: 510px) {
             fieldset {
@@ -103,25 +107,25 @@
     {% include 'navbar.html' %}
     <div class="container">
             <h1>Create Quiz</h1>
+    <form method="post" action="{% url 'quiz' %}">
         <fieldset name="quiz">
             {% csrf_token %}
-            <label for="title"> Title: </label>
-            <input name="title" id="title" type="text" maxlength="100" required="true">
-            <label for="theme"> Subject:</label>
-            <input name="theme" id="theme" type="text" maxlength="40" required="true">
-            <label for="description"> A short description:</label>
-            <textarea name="description" id="description" type="textarea" maxlength="200" required="true" rows="5" cols="30"></textarea>
-            <label for="status" style="font-weight: 400">Status of quiz</label>
-            <select name="status" id="status">
-                <option value="True">Public</option>
-                <option value="False">Private</option>
-            </select>
+            {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+                {% for e in field.errors %}
+                    <Text class="invalid">{{ e }}</Text><br>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <p class="invalid">{{ error }}</p>
+            {% endfor %}
             <div class="buttons" style="display: flex; flex-direction: row; justify-content: space-between">
-                <button onclick="create_quiz()" class="button">Next</button>
-                <a href="../home"><button id="cancel" class="button">Cancel</button></a>
+                <input type="submit" value="Next" class="button">
+                <button id="cancel" class="button"><a href="../home">Cancel</a></button>
             </div>
         </fieldset>
-
+    </form>
     </div>
 </body>
 </html>

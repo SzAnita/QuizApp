@@ -5,7 +5,7 @@ $(document).on("submit", ".edit_user", function (event){
     let pwd = $(this).find('input[name=pwd]').val();
     alert($(this).find('input[name=csrfmiddlewaretoken]').val());
     $.ajax({
-        url: 'signup/',
+        url: 'user_edit/',
         type: 'PUT',
         headers: {'X-CSRFToken': $(this).find('input[name=csrfmiddlewaretoken]').val()},
         contentType: 'application/JSON',
@@ -60,7 +60,7 @@ function save(type) {
         new_val = $("#new_pwd").val();
     }
     $.ajax({
-            url: 'signup/',
+            url: 'user_edit',
             type: 'PUT',
             headers: {'X-CSRFToken': getCSRFToken()},
             data: data,

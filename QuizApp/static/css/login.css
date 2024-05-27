@@ -22,3 +22,7 @@ input, textarea, .button, select {
      padding: 5px 20px;
      font-size: 1em;
  }
+ .invalid {
+    font-size: 12px;
+    color: darkred;
+}

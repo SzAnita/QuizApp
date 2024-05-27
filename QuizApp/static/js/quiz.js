@@ -1,27 +1,3 @@
-function create_quiz() {
-    $.ajax({
-        url: 'create_quiz',
-        type: 'POST',
-        headers: {
-          'X-CSRFToken': getCSRFToken()
-        },
-        data: {
-            'csrftoken':getCSRFToken(),
-            'title': $("#title").val(),
-            'theme': $("#theme").val(),
-            'description': $("#description").val(),
-            'status': $("#status").val()
-        },
-        success: function (data) {
-            if(data.quiz_id == 'exists') {
-                $('input[name=title]').after('<p class="invalid">You already have a quiz with this title. Please change it.</p>');
-            } else {
-                window.location.replace('create_quiz/question/' +data.quiz_id);
-            }
-        }
-      });
-}
-
 function add_question(data) {
     let quiz = $('[name=quiz]');
     quiz.empty();
@@ -160,7 +136,7 @@ function send_question(quiz_id, last, answer_nr) {
                     if (!last) {
                         add_question(quiz_id);
                     } else {
-                        window.location.replace('../../../quizzes/' + data['title'] + data['quiz_id']);
+                        window.location.replace('../../quiz/'+data['quiz_id']);
                     }
                 }
             }
