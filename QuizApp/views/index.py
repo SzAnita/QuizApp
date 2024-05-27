@@ -1,20 +1,18 @@
-from django.http import HttpResponse
-from django.template import loader
-
-from QuizApp.models import Quiz, QuizResult, QuizGroup, User
+from django.views.generic import TemplateView
+from QuizApp.models import Quiz, QuizGroup, User
 
 
-def index(request):
-    context = {
+class HomeView(TemplateView):
+    template_name = 'index.html'
+    extra_context = {
         'auth': 'no',
-        'group': 'false'
+        'group': 'false',
+        'quizzes': Quiz.objects.filter(public=True).values()
     }
-    quizzes = Quiz.objects.filter(public=True).values()
-    if len(quizzes) > 0:
-        context['quizzes'] = Quiz.objects.filter(public=True).values()
-    if request.user.is_authenticated:
-        context['auth'] = 'yes'
-        context['group'] = 'true'
-        context['groups'] = QuizGroup.objects.filter(owner_id=request.user)
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render(context, request))
+    def get(self, request, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if request.user.is_authenticated:
+            context['auth'] = 'yes'
+            context['group'] = 'true'
+            context['groups'] = QuizGroup.objects.filter(owner_id=request.user)
+        return self.render_to_response(context)
